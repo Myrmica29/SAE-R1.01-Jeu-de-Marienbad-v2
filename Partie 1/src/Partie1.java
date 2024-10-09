@@ -13,10 +13,11 @@ class Partie1{
 		String joueur2 = SimpleInput.getString("Nom du joueur 2:");
 		
 		// Saisie du nombre de lignes
-		int n;
-		do{
-			n = SimpleInput.getInt("Nombre de lignes:");
-		}while(n<2 || n>15); // n doit etre 2 et 15
+		int n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15):");
+		while(n<2 || n>15){
+			System.out.println("Nombre de lignes invalide");
+			n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15):");
+		} // n doit etre 2 et 15
 		int[] sticks = generateSticks(n);
 		
 		int turn = 1;
@@ -42,7 +43,7 @@ class Partie1{
 			// Saisie de la ligne et du nombre d'allumettes à enlever
 			do{
 				a = SimpleInput.getInt("Saisie de la ligne sur laquelle vous voulez retirer des allumettes (1=ligne 1, ...):") - 1;
-			}while(a<0 || a>=n); // 0 <= a < n
+			}while(a<0 || a>=n || sticks[a] == 0); // 0 <= a < n
 			do{
 				b = SimpleInput.getInt("Nombre d'allumettes que vous voulez enlever:");
 			}while(b<=0 || b>sticks[a]); // 0 < b <= sticks[a]
@@ -83,7 +84,8 @@ class Partie1{
 	 * @param b
 	 */
 	int[] updateSticks(int[] sticks, int a, int b){
-		return sticks;
+		int [] t = {};
+		return t;
 	}
 	
 	/**
@@ -92,6 +94,6 @@ class Partie1{
 	 * @return true if it's not the end of the game
 	 */
 	boolean continueGame(int[] sticks){
-		return true;
+		return false;
 	}
 }
