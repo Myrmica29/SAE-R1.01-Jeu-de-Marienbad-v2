@@ -70,11 +70,17 @@ class Partie1{
 	}
 	
 	/**
-	 * 
-	 * @param sticks
+	 * Affiche les allumettes
+	 * @param sticks tableau contenant le nombre d'allumettes par lignes
 	 */
 	void displaySticks(int[] sticks){
-		
+		for (int i=0; i<sticks.length;i++){
+			System.out.print(i+" : ");
+			for (int j=0; j<sticks[i];j++){
+				System.out.print("|");
+			}
+			System.out.println();
+		}
 	}
 	
 	/**
@@ -93,6 +99,12 @@ class Partie1{
 	 * @return true if it's not the end of the game
 	 */
 	boolean continueGame(int[] sticks){
-		return false;
+		boolean res = false;
+		for (int i=0; i<sticks.length; i++){
+			if (sticks[i]>0){
+				res = true;
+			}
+		}
+		return res;
 	}
 }
