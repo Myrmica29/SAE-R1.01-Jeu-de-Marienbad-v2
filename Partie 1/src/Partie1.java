@@ -85,7 +85,7 @@ class Partie1{
 			for (int j=0; j<sticks[i];j++){
 				System.out.print("|");
 			}
-			System.out.println();
+			System.out.println(" (" +sticks[i]+ ")");
 		}
 	}
 	
