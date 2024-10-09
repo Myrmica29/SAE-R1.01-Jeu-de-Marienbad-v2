@@ -1,6 +1,6 @@
 /**
- * 
- * 
+ * Jeu de Marienbad
+ * @author Tristan & Melanie
  */
 
 class Partie1{
@@ -93,16 +93,16 @@ class Partie1{
 	 * actualise le tableau des allumetttes
 	 * @param sticks tableau d'entiers contenant le nombre d'allumettes par ligne
 	 * @param a ligne a modifié
-	 * @param b 
+	 * @param b nombre d'allumettes à retirer
 	 */
 	void updateSticks(int[] sticks, int a, int b){
 		sticks[a] = sticks[a] - b;
 	}
 	
 	/**
-	 * Check if it is the end of the game by checking if there is no stick left on any lines
-	 * @param sticks the tables containing the number of sticks per lines
-	 * @return true if it's not the end of the game
+	 * Test si c'est la fin du jeu en regardant si il n'y a plus aucune allumettes sur aucune lignes
+	 * @param sticks tableau d'entiers contenant le nombre d'allumettes par ligne
+	 * @return true si ce n'est pas la fin du jeu
 	 */
 	boolean continueGame(int[] sticks){
 		boolean res = false;
@@ -113,7 +113,52 @@ class Partie1{
 		}
 		return res;
 	}
+	
+	/**
+	 * Test la méthode continueGame()
+	 */
+	void testContinueGame(){
+		System.out.println();
+		System.out.println("*** testContinueGame()");
+		testCasContinueGame(new int[]{1,3,5}, true);
+		testCasContinueGame(new int[]{0,1,2}, true);
+		testCasContinueGame(new int[]{2,1,0}, true);
+		testCasContinueGame(new int[]{0,0,0}, false);
+		testCasContinueGame(new int[]{0}, false);
+	}
+	
+	/**
+	 * Teste un appel de continueGame()
+	 * @param tab tableau d'entiers
+	 * @param result résultat attendu
+	 */
+	void testCasContinueGame(int[] tab, boolean result){
+		//Affichage
+		System.out.print("continueGame(" + displayTab(tab) + ")\t= " + result + "\t : ");
+		//Appel
+		boolean resExec = continueGame(tab);
+		//Vérification
+		if (resExec == result){
+			System.out.println("OK");
+		} else {
+			System.err.println("ERREUR");
+		}
+	}
+	
+	/**
+	 * Affiche un tableau d'entiers
+	 * @param t tableau d'entiers
+	 * @return une chaine de caractère qui représente le tableau t
+	 */
+	String displayTab(int[] t){
+		String res = "{";
+		if (t.length > 0){
+			for (int i=0; i<t.length-1; i++){
+				res += t[i] + ",";
+			}
+			res += t[t.length-1];
+		}
+		res += "}";
+		return res;
+	}
 }
-
-
-// Commentaire de Tristan
