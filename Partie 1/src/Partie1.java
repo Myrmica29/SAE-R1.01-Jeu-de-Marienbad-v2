@@ -114,3 +114,5 @@ class Partie1{
 		return res;
 	}
 }
+
+//commentraire melanie
