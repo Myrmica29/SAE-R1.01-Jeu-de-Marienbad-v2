@@ -54,6 +54,12 @@ class Partie1{
 			// Mise à jour de la condition de continuation de la boucle
 			run = continueGame(sticks);
 		}
+		
+		if (turn == 0){
+			System.out.println(joueur1 + " a gagné !!!");
+		}else{
+			System.out.println(joueur2 + " a gagné !!!");
+		}
 	}
 	
 	/**
