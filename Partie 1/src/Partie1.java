@@ -114,3 +114,6 @@ class Partie1{
 		return res;
 	}
 }
+
+
+// Commentaire de Tristan
