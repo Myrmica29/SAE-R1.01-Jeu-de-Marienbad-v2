@@ -42,7 +42,7 @@ class Partie1{
 			
 			// Saisie de la ligne et du nombre d'allumettes à enlever
 			do{
-				a = SimpleInput.getInt("Saisie de la ligne sur laquelle vous voulez retirer des allumettes (1=ligne 1, ...):") - 1;
+				a = SimpleInput.getInt("Saisie de la ligne sur laquelle vous voulez retirer des allumettes (0=ligne 0, ...):");
 			}while(a<0 || a>=n || sticks[a] == 0); // 0 <= a < n
 			do{
 				b = SimpleInput.getInt("Nombre d'allumettes que vous voulez enlever:");
@@ -78,14 +78,13 @@ class Partie1{
 	}
 	
 	/**
-	 * 
-	 * @param sticks
-	 * @param a
-	 * @param b
+	 * actualise le tableau des allumetttes
+	 * @param sticks tableau d'entiers contenant le nombre d'allumettes par ligne
+	 * @param a ligne a modifié
+	 * @param b 
 	 */
-	int[] updateSticks(int[] sticks, int a, int b){
-		int [] t = {};
-		return t;
+	void updateSticks(int[] sticks, int a, int b){
+		sticks[a] = sticks[a] - b;
 	}
 	
 	/**
