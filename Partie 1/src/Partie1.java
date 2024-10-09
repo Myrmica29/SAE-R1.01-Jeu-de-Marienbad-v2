@@ -11,13 +11,18 @@ class Partie1{
 		
 		// Saisie du nom du joueur qui joue en 2ème
 		String joueur2 = SimpleInput.getString("Nom du joueur 2:");
+		while ( diffString(joueur1, joueur2)){
+			System.out.println("Le nom du joueur 2 doit etre different de celui du joueur 1");
+			joueur2 = SimpleInput.getString("Nom du joueur 2:");
+		}
 		
 		// Saisie du nombre de lignes
 		int n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15):");
-		while(n<2 || n>15){
+		
+		while(n<2 || n>15){ // n doit etre 2 et 15
 			System.out.println("Nombre de lignes invalide");
 			n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15):");
-		} // n doit etre 2 et 15
+		} 
 		int[] sticks = generateSticks(n);
 		
 		int turn = 1;
@@ -41,12 +46,25 @@ class Partie1{
 			}
 			
 			// Saisie de la ligne et du nombre d'allumettes à enlever
-			do{
+			a = SimpleInput.getInt("Saisie de la ligne sur laquelle vous voulez retirer des allumettes (0=ligne 0, ...):");
+			// 0 <= a < n
+			while(a<0 || a>=n){ 
+				System.out.println("Numero de ligne invalide entrez un nombre entre 0 et "+ (n-1));
 				a = SimpleInput.getInt("Saisie de la ligne sur laquelle vous voulez retirer des allumettes (0=ligne 0, ...):");
-			}while(a<0 || a>=n || sticks[a] == 0); // 0 <= a < n
-			do{
+			}
+			//ligne vide
+			while( sticks[a] == 0 ){
+				System.out.println("Numero de ligne invalide entrez une ligne non vide");
+				a = SimpleInput.getInt("Saisie de la ligne sur laquelle vous voulez retirer des allumettes (0=ligne 0, ...):");
+				
+			}
+			
+			
+			b = SimpleInput.getInt("Nombre d'allumettes que vous voulez enlever:");
+			while(b<=0 || b>sticks[a]){
+				System.out.println("Nombre d'allumettes invalide !");
 				b = SimpleInput.getInt("Nombre d'allumettes que vous voulez enlever:");
-			}while(b<=0 || b>sticks[a]); // 0 < b <= sticks[a]
+			}// 0 < b <= sticks[a]
 			
 			// Mise à jour du tableau de batons
 			updateSticks(sticks, a, b);
@@ -62,6 +80,32 @@ class Partie1{
 		}
 	}
 	
+	
+	/**
+	 * test si deux  chaine de caractere sont identique 
+	 * @param s1 premiere chaine de caractere
+	 * @param s2 deuxieme chaine de caractere
+	 * @return true si les deux chaine sont identique
+	 */
+	boolean diffString( String s1, String s2){
+		boolean equal = true;
+		if (s1.length() != s2.length()){
+			equal = false;
+		}else {
+			int i = 0;
+			while (i<s1.length() ){
+				if (s1.charAt(i) != s2.charAt(i) ){
+					equal = false;
+				}
+				i ++;
+			}
+		}
+		return equal;
+	}
+	 
+	 
+	 
+	 
 	/**
 	 * creer un tableau contenant le nombre initial d'allumette en debut de partie
 	 * @param n nombre de ligne
@@ -115,4 +159,5 @@ class Partie1{
 	}
 }
 
-//commentraire melanie
+
+
