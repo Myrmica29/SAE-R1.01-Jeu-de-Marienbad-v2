@@ -5,12 +5,17 @@
 
 class Partie1{
 	void principal(){
+		testContinueGame();
 		
 		// Saisie du nom du joueur qui joue en 1er
 		String joueur1 = SimpleInput.getString("Nom du joueur 1:");
 		
 		// Saisie du nom du joueur qui joue en 2ème
 		String joueur2 = SimpleInput.getString("Nom du joueur 2:");
+		while ( diffString(joueur1, joueur2)){
+			System.out.println("Le nom du joueur 2 doit etre different de celui du joueur 1");
+			joueur2 = SimpleInput.getString("Nom du joueur 2:");
+		}
 		
 		// Saisie du nombre de lignes
 		int n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15):");
@@ -60,6 +65,28 @@ class Partie1{
 		}else{
 			System.out.println(joueur2 + " a gagné !!!");
 		}
+	}
+	
+	/**
+	 * test si deux  chaine de caractere sont identique 
+	 * @param s1 premiere chaine de caractere
+	 * @param s2 deuxieme chaine de caractere
+	 * @return true si les deux chaine sont identique
+	 */
+	boolean diffString( String s1, String s2){
+		boolean equal = true;
+		if (s1.length() != s2.length()){
+			equal = false;
+		}else {
+			int i = 0;
+			while (i<s1.length() ){
+				if (s1.charAt(i) != s2.charAt(i) ){
+					equal = false;
+				}
+				i ++;
+			}
+		}
+		return equal;
 	}
 	
 	/**
