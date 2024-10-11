@@ -5,23 +5,24 @@
 
 class Partie1{
 	void principal(){
-		testContinueGame();
+		
+		test(); 
 		
 		// Saisie du nom du joueur qui joue en 1er
-		String joueur1 = SimpleInput.getString("Nom du joueur 1:");
+		String joueur1 = SimpleInput.getString("Nom du joueur 1 : ");
 		
 		// Saisie du nom du joueur qui joue en 2ème
-		String joueur2 = SimpleInput.getString("Nom du joueur 2:");
-		while ( diffString(joueur1, joueur2)){
+		String joueur2 = SimpleInput.getString("Nom du joueur 2 : ");
+		while ( egalString(joueur1, joueur2)){
 			System.out.println("Le nom du joueur 2 doit etre different de celui du joueur 1");
-			joueur2 = SimpleInput.getString("Nom du joueur 2:");
+			joueur2 = SimpleInput.getString("Nom du joueur 2 : ");
 		}
 		
 		// Saisie du nombre de lignes
-		int n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15):");
+		int n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15): ");
 		while(n<2 || n>15){
 			System.out.println("Nombre de lignes invalide");
-			n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15):");
+			n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15): ");
 		} // n doit etre 2 et 15
 		int[] sticks = generateSticks(n);
 		
@@ -67,13 +68,26 @@ class Partie1{
 		}
 	}
 	
+	
+	void test(){
+		System.out.println("**** TEST ****");
+		
+		testContinueGame();
+		testEgalString();
+		testGenerateSticks();
+		
+		System.out.println();
+		System.out.println("**************");
+		System.out.println();
+	}
+		
 	/**
 	 * test si deux  chaine de caractere sont identique 
 	 * @param s1 premiere chaine de caractere
 	 * @param s2 deuxieme chaine de caractere
 	 * @return true si les deux chaine sont identique
 	 */
-	boolean diffString( String s1, String s2){
+	boolean egalString( String s1, String s2){
 		boolean equal = true;
 		if (s1.length() != s2.length()){
 			equal = false;
@@ -88,6 +102,40 @@ class Partie1{
 		}
 		return equal;
 	}
+	/**
+	 * Test la méthode egalString()
+	 */
+	void testEgalString(){
+		System.out.println();
+		System.out.println("*** testEgalString() ***");
+		testCasEgalString("test","test", true);
+		testCasEgalString("test","Test", false);
+		testCasEgalString("test","test ", false);
+		testCasEgalString("test","abc", false);
+	}
+	
+	/**
+	 * Teste un appel de egalDiff()
+	 * @param s1 chaine de caractere
+	 * @param s2 chaine de caractere
+	 * @param result résultat attendu
+	 */
+	void testCasEgalString(String s1, String s2, boolean result){
+		//Affichage
+		System.out.print("egalString(" + s1+ ", " +s2+ ")\t= " + result + "\t : ");
+		//Appel
+		boolean resExec = egalString(s1, s2);
+		//Vérification
+		if (resExec == result){
+			System.out.println("OK");
+		} else {
+			System.err.println("ERREUR");
+		}
+	}
+	
+	
+	
+	
 	
 	/**
 	 * creer un tableau contenant le nombre initial d'allumette en debut de partie
@@ -101,6 +149,52 @@ class Partie1{
 		}
 		return stick;
 	}
+	/**
+	 * Test la méthode egalString()
+	 */
+	void testGenerateSticks(){
+		System.out.println();
+		System.out.println("*** testGenerateSticks() ***");
+		
+		testCasGenerateSticks(2, new int [] {1,3});
+		testCasGenerateSticks(6, new int [] {1,3,5,7,9,11});
+		testCasGenerateSticks(15, new int [] {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29} );
+	}
+	
+	/**
+	 * Teste un appel de generateSticks()
+	 * @param n entier
+	 * @param result résultat attendu
+	 */
+	void testCasGenerateSticks(int n, int [] res){
+		//Affichage
+		System.out.print("egalString(" + n+ ")\t= " + displayTab(res) + "\t : ");
+		//Appel
+		int [] resExec = generateSticks(n);
+		//Vérification
+		if (tabIden(res, resExec)){
+			System.out.println("OK");
+		} else {
+			System.err.println("ERREUR");
+		}
+	}
+	
+	boolean tabIden( int [] t1, int [] t2){
+		boolean res = true ;
+		if (t1.length != t2.length ){
+			res = false ;
+		}else{
+			for (int i = 0; i < t1.length; i++ ){
+				if (t1[i] != t2[i]){
+					res = false ;
+				}
+			}
+		}
+		return res; 
+	}
+		
+	
+	
 	
 	/**
 	 * Affiche les allumettes
@@ -127,6 +221,37 @@ class Partie1{
 	}
 	
 	/**
+	 * Test la méthode updateSticks()
+	 */
+	void testUpdateSticks(){
+		System.out.println();
+		System.out.println("*** testUpdateSticks() ***");
+		
+		testCasUpdateSticks(new int [] {0,2,4,2}, 2, 1, new int [] {0,2,3,2});
+		//testCasUpdateSticks();
+		//testCasUpdateSticks();
+		//testCasUpdateSticks();
+	}
+	
+	/**
+	 * Teste un appel de updateSticks()
+	 * @param tab tableau d'entiers
+	 * @param result résultat attendu
+	 */
+	void testCasUpdateSticks(int[] tab, int a, int b ,int [] result){
+		//Affichage
+		System.out.print("updateSticks(" + displayTab(tab) + ", " +a+ ", " +b+ ")\t= " + result + "\t : ");
+		//Appel
+		updateSticks(tab, a, b);
+		//Vérification
+		if (tab == result){
+			System.out.println("OK");
+		} else {
+			System.err.println("ERREUR");
+		}
+	}
+	
+	/**
 	 * Test si c'est la fin du jeu en regardant si il n'y a plus aucune allumettes sur aucune lignes
 	 * @param sticks tableau d'entiers contenant le nombre d'allumettes par ligne
 	 * @return true si ce n'est pas la fin du jeu
@@ -146,7 +271,7 @@ class Partie1{
 	 */
 	void testContinueGame(){
 		System.out.println();
-		System.out.println("*** testContinueGame()");
+		System.out.println("*** testContinueGame() ***");
 		testCasContinueGame(new int[]{1,3,5}, true);
 		testCasContinueGame(new int[]{0,1,2}, true);
 		testCasContinueGame(new int[]{2,1,0}, true);
@@ -188,4 +313,5 @@ class Partie1{
 		res += "}";
 		return res;
 	}
+	
 }
