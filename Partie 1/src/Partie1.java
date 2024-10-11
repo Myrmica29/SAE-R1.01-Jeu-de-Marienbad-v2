@@ -8,29 +8,35 @@ class Partie1{
 		
 		test(); 
 		
+		String joueur1;
+		String joueur2 ;
+		int n;
+		int [] sticks ;
+		int turn ;
+		boolean run;
+		int nbLigne ; // Variable utilisée dans la boucle pour stocker le numéro de la ligne choisie par le joueur
+		int nbAll ; // Variable utilisée dans la boucle pour stocker le nombre d'allumettes à enlever
+		
+		
 		// Saisie du nom du joueur qui joue en 1er
-		String joueur1 = SimpleInput.getString("Nom du joueur 1 : ");
+		joueur1 = nomJoueur(1, "");
 		
 		// Saisie du nom du joueur qui joue en 2ème
-		String joueur2 = SimpleInput.getString("Nom du joueur 2 : ");
-		while ( egalString(joueur1, joueur2)){
-			System.out.println("Le nom du joueur 2 doit etre different de celui du joueur 1");
-			joueur2 = SimpleInput.getString("Nom du joueur 2 : ");
-		}
+		joueur2 =nomJoueur(2, joueur1);
+		
 		
 		// Saisie du nombre de lignes
-		int n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15): ");
+		n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15): ");
 		while(n<2 || n>15){
 			System.out.println("Nombre de lignes invalide");
 			n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15): ");
 		} // n doit etre 2 et 15
-		int[] sticks = generateSticks(n);
+		sticks = generateSticks(n);
 		
-		int turn = 1;
-		boolean run = true;
-		int a; // Variable utilisée dans la boucle pour stocker le numéro de la ligne choisie par le joueur
-		int b; // Variable utilisée dans la boucle pour stocker le nombre d'allumettes à enlever
+		turn = 1;
+		run = true;
 		
+		jouer(run);
 		while (run){
 			
 			//changement de joueur
@@ -48,14 +54,14 @@ class Partie1{
 			
 			// Saisie de la ligne et du nombre d'allumettes à enlever
 			do{
-				a = SimpleInput.getInt("Saisie de la ligne sur laquelle vous voulez retirer des allumettes (0=ligne 0, ...):");
-			}while(a<0 || a>=n || sticks[a] == 0); // 0 <= a < n
+				nbLigne = SimpleInput.getInt("Saisie de la ligne sur laquelle vous voulez retirer des allumettes (0=ligne 0, ...):");
+			}while(nbLigne<0 || nbLigne >=n || sticks[nbLigne] == 0); // 0 <= nbLIgne < n
 			do{
-				b = SimpleInput.getInt("Nombre d'allumettes que vous voulez enlever:");
-			}while(b<=0 || b>sticks[a]); // 0 < b <= sticks[a]
+				nbAll = SimpleInput.getInt("Nombre d'allumettes que vous voulez enlever:");
+			}while(nbAll <=0 || nbAll>sticks[nbLigne]); // 0 < nbAll <= sticks[nbLigne]
 			
 			// Mise à jour du tableau de batons
-			updateSticks(sticks, a, b);
+			updateSticks(sticks, nbLigne, nbAll);
 			
 			// Mise à jour de la condition de continuation de la boucle
 			run = continueGame(sticks);
@@ -68,18 +74,60 @@ class Partie1{
 		}
 	}
 	
-	
+	/**
+	 * Affiche tous les tests de fonction
+	 */
 	void test(){
 		System.out.println("**** TEST ****");
 		
-		testContinueGame();
 		testEgalString();
 		testGenerateSticks();
+		testUpdateSticks();
+		testContinueGame();
+		
 		
 		System.out.println();
 		System.out.println("**************");
 		System.out.println();
 	}
+	
+	
+	/**
+	 * test si nom du joueur est acceptable (non vide, sans espace et different de celui de ladversaire)
+	 * @param n numero du joueur
+	 * @param adversiare nom deja pris par l'adversaire
+	 * @return vrai si est il acceptable
+	 */
+	 String nomJoueur(int n, String adversaire){
+		 boolean valide;
+		 String joueur ;
+		 do{
+			 valide = false ;
+			 if ( n == 1 ){
+				joueur = SimpleInput.getString("Nom du joueur 1 (non vide et sans espace) : ");
+			}else {
+				joueur = SimpleInput.getString("Nom du joueur 2 (non vide, sans espace et different du joueur 1) : ");
+			}
+				
+			 if (joueur.length() != 0){
+				 int i = 0;
+				 while (i < joueur.length() && !valide ){
+					 if (joueur.charAt(i) == ' '){
+						valide = false;
+					}else if ( i == (joueur.length()-1) ){
+						valide = true;
+					}
+					i ++;
+				}
+			}else {
+				valide = false;
+			}
+			
+				
+		}while (!valide || (egalString(adversaire, joueur)));
+		return joueur;
+	}
+	
 		
 	/**
 	 * test si deux  chaine de caractere sont identique 
@@ -102,6 +150,7 @@ class Partie1{
 		}
 		return equal;
 	}
+	
 	/**
 	 * Test la méthode egalString()
 	 */
@@ -134,9 +183,7 @@ class Partie1{
 	}
 	
 	
-	
-	
-	
+
 	/**
 	 * creer un tableau contenant le nombre initial d'allumette en debut de partie
 	 * @param n nombre de ligne
@@ -149,6 +196,7 @@ class Partie1{
 		}
 		return stick;
 	}
+	
 	/**
 	 * Test la méthode egalString()
 	 */
@@ -178,29 +226,14 @@ class Partie1{
 			System.err.println("ERREUR");
 		}
 	}
-	
-	boolean tabIden( int [] t1, int [] t2){
-		boolean res = true ;
-		if (t1.length != t2.length ){
-			res = false ;
-		}else{
-			for (int i = 0; i < t1.length; i++ ){
-				if (t1[i] != t2[i]){
-					res = false ;
-				}
-			}
-		}
-		return res; 
-	}
 		
-	
-	
 	
 	/**
 	 * Affiche les allumettes
 	 * @param sticks tableau contenant le nombre d'allumettes par lignes
 	 */
 	void displaySticks(int[] sticks){
+		System.out.println();
 		for (int i=0; i<sticks.length;i++){
 			System.out.print(i+" : ");
 			for (int j=0; j<sticks[i];j++){
@@ -208,6 +241,7 @@ class Partie1{
 			}
 			System.out.println(" (" +sticks[i]+ ")");
 		}
+		System.out.println();
 	}
 	
 	/**
@@ -228,9 +262,8 @@ class Partie1{
 		System.out.println("*** testUpdateSticks() ***");
 		
 		testCasUpdateSticks(new int [] {0,2,4,2}, 2, 1, new int [] {0,2,3,2});
-		//testCasUpdateSticks();
-		//testCasUpdateSticks();
-		//testCasUpdateSticks();
+		testCasUpdateSticks(new int [] {1,3,5,7,9}, 0, 1, new int [] {0,3,5,7,9});
+		testCasUpdateSticks(new int [] {1,3,5,7,9}, 4,9, new int [] {1,3,5,7,0});
 	}
 	
 	/**
@@ -240,11 +273,11 @@ class Partie1{
 	 */
 	void testCasUpdateSticks(int[] tab, int a, int b ,int [] result){
 		//Affichage
-		System.out.print("updateSticks(" + displayTab(tab) + ", " +a+ ", " +b+ ")\t= " + result + "\t : ");
+		System.out.print("updateSticks(" + displayTab(tab) + ", " +a+ ", " +b+ ")\t= " + displayTab(result) + "\t : ");
 		//Appel
 		updateSticks(tab, a, b);
 		//Vérification
-		if (tab == result){
+		if (tabIden(result, tab)){
 			System.out.println("OK");
 		} else {
 			System.err.println("ERREUR");
@@ -296,6 +329,66 @@ class Partie1{
 			System.err.println("ERREUR");
 		}
 	}
+		
+	
+	/**
+	 * verifie si deux tables sont identiques
+	 * @param t1 premier tableau d'entier
+	 * @param t2 deuxieme tableau d'entier
+	 * @return vrai ssi les deux tableaux sont identiques
+	 */
+	boolean tabIden( int [] t1, int [] t2){
+		boolean res = true ;
+		if (t1.length != t2.length ){
+			res = false ;
+		}else{
+			for (int i = 0; i < t1.length; i++ ){
+				if (t1[i] != t2[i]){
+					res = false ;
+				}
+			}
+		}
+		return res; 
+	}
+	
+	void jouer(boolean run){
+		while (run){
+			
+			//changement de joueur
+			turn = (turn+1)%2;
+			
+			// Affichage du jeu
+			displaySticks(sticks);
+			
+			// Affiche le nom du joueur qui joue
+			if (turn == 0){
+				System.out.println("C'est au tour de " + joueur1 + " de jouer !");
+			}else{
+				System.out.println("C'est au tour de " + joueur2 + " de jouer !");
+			}
+			
+			// Saisie de la ligne et du nombre d'allumettes à enlever
+			do{
+				nbLigne = SimpleInput.getInt("Saisie de la ligne sur laquelle vous voulez retirer des allumettes (0=ligne 0, ...):");
+			}while(nbLigne<0 || nbLigne >=n || sticks[nbLigne] == 0); // 0 <= nbLIgne < n
+			do{
+				nbAll = SimpleInput.getInt("Nombre d'allumettes que vous voulez enlever:");
+			}while(nbAll <=0 || nbAll>sticks[nbLigne]); // 0 < nbAll <= sticks[nbLigne]
+			
+			// Mise à jour du tableau de batons
+			updateSticks(sticks, nbLigne, nbAll);
+			
+			// Mise à jour de la condition de continuation de la boucle
+			run = continueGame(sticks);
+		}
+		
+		if (turn == 0){
+			System.out.println(joueur1 + " a gagné !!!");
+		}else{
+			System.out.println(joueur2 + " a gagné !!!");
+		}
+	}
+	
 	
 	/**
 	 * Affiche un tableau d'entiers
