@@ -36,7 +36,7 @@ class Partie1{
 		turn = 1;
 		run = true;
 		
-		jouer(run);
+		
 		while (run){
 			
 			//changement de joueur
@@ -349,44 +349,6 @@ class Partie1{
 			}
 		}
 		return res; 
-	}
-	
-	void jouer(boolean run){
-		while (run){
-			
-			//changement de joueur
-			turn = (turn+1)%2;
-			
-			// Affichage du jeu
-			displaySticks(sticks);
-			
-			// Affiche le nom du joueur qui joue
-			if (turn == 0){
-				System.out.println("C'est au tour de " + joueur1 + " de jouer !");
-			}else{
-				System.out.println("C'est au tour de " + joueur2 + " de jouer !");
-			}
-			
-			// Saisie de la ligne et du nombre d'allumettes à enlever
-			do{
-				nbLigne = SimpleInput.getInt("Saisie de la ligne sur laquelle vous voulez retirer des allumettes (0=ligne 0, ...):");
-			}while(nbLigne<0 || nbLigne >=n || sticks[nbLigne] == 0); // 0 <= nbLIgne < n
-			do{
-				nbAll = SimpleInput.getInt("Nombre d'allumettes que vous voulez enlever:");
-			}while(nbAll <=0 || nbAll>sticks[nbLigne]); // 0 < nbAll <= sticks[nbLigne]
-			
-			// Mise à jour du tableau de batons
-			updateSticks(sticks, nbLigne, nbAll);
-			
-			// Mise à jour de la condition de continuation de la boucle
-			run = continueGame(sticks);
-		}
-		
-		if (turn == 0){
-			System.out.println(joueur1 + " a gagné !!!");
-		}else{
-			System.out.println(joueur2 + " a gagné !!!");
-		}
 	}
 	
 	
