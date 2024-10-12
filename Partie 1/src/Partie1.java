@@ -67,10 +67,11 @@ class Partie1{
 			run = continueGame(sticks);
 		}
 		
+		System.out.println();
 		if (turn == 0){
-			System.out.println(joueur1 + " a gagné !!!");
+			System.out.println(joueur1 + " a gagne !!!");
 		}else{
-			System.out.println(joueur2 + " a gagné !!!");
+			System.out.println(joueur2 + " a gagne !!!");
 		}
 	}
 	
@@ -95,24 +96,24 @@ class Partie1{
 	/**
 	 * test si nom du joueur est acceptable (non vide, sans espace et different de celui de ladversaire)
 	 * @param n numero du joueur
-	 * @param adversiare nom deja pris par l'adversaire
-	 * @return vrai si est il acceptable
+	 * @param adversaire nom deja pris par l'adversaire
+	 * @return le nom du joueur si est il acceptable
 	 */
-	 String nomJoueur(int n, String adversaire){
-		 boolean valide;
-		 String joueur ;
-		 do{
-			 valide = false ;
-			 if ( n == 1 ){
+	String nomJoueur(int n, String adversaire){
+		boolean valide;
+		String joueur ;
+		do{
+			valide = false ;
+			if ( n == 1 ){
 				joueur = SimpleInput.getString("Nom du joueur 1 (non vide et sans espace) : ");
 			}else {
 				joueur = SimpleInput.getString("Nom du joueur 2 (non vide, sans espace et different du joueur 1) : ");
 			}
 				
-			 if (joueur.length() != 0){
-				 int i = 0;
-				 while (i < joueur.length() && !valide ){
-					 if (joueur.charAt(i) == ' '){
+			if (joueur.length() != 0){
+				int i = 0;
+				while (i < joueur.length() && !valide ){
+					if (joueur.charAt(i) == ' '){
 						valide = false;
 					}else if ( i == (joueur.length()-1) ){
 						valide = true;
@@ -164,7 +165,7 @@ class Partie1{
 	}
 	
 	/**
-	 * Teste un appel de egalDiff()
+	 * Teste un appel de egalString()
 	 * @param s1 chaine de caractere
 	 * @param s2 chaine de caractere
 	 * @param result résultat attendu
@@ -185,7 +186,7 @@ class Partie1{
 	
 
 	/**
-	 * creer un tableau contenant le nombre initial d'allumette en debut de partie
+	 * cree un tableau contenant le nombre initial d'allumette en debut de partie
 	 * @param n nombre de ligne
 	 * @return stick tableau, des lignes d'allumette
 	 */
@@ -198,7 +199,7 @@ class Partie1{
 	}
 	
 	/**
-	 * Test la méthode egalString()
+	 * Test la méthode generateSticks()
 	 */
 	void testGenerateSticks(){
 		System.out.println();
@@ -216,7 +217,7 @@ class Partie1{
 	 */
 	void testCasGenerateSticks(int n, int [] res){
 		//Affichage
-		System.out.print("egalString(" + n+ ")\t= " + displayTab(res) + "\t : ");
+		System.out.print("generateSticks(" + n+ ")\t= " + displayTab(res) + "\t : ");
 		//Appel
 		int [] resExec = generateSticks(n);
 		//Vérification
@@ -329,10 +330,9 @@ class Partie1{
 			System.err.println("ERREUR");
 		}
 	}
-		
 	
 	/**
-	 * verifie si deux tables sont identiques
+	 * verifie si deux tableaux sont identiques
 	 * @param t1 premier tableau d'entier
 	 * @param t2 deuxieme tableau d'entier
 	 * @return vrai ssi les deux tableaux sont identiques
@@ -350,7 +350,6 @@ class Partie1{
 		}
 		return res; 
 	}
-	
 	
 	/**
 	 * Affiche un tableau d'entiers
