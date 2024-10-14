@@ -1,6 +1,6 @@
 /**
  * Jeu de Marienbad
- * @author Tristan & Melanie
+ * @author Tristan & Mélanie
  */
 
 class Partie1{
@@ -85,7 +85,6 @@ class Partie1{
 		testGenerateSticks();
 		testUpdateSticks();
 		testContinueGame();
-		
 		
 		System.out.println();
 		System.out.println("**************");
@@ -184,7 +183,6 @@ class Partie1{
 	}
 	
 	
-
 	/**
 	 * cree un tableau contenant le nombre initial d'allumette en debut de partie
 	 * @param n nombre de ligne
