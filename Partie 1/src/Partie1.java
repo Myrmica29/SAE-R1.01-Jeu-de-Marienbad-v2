@@ -36,7 +36,7 @@ class Partie1{
 		
 		// Saisie du nom du joueur qui joue en 2ème
 		joueur2 =nomJoueur(2, joueur1);
-		
+		 
 		
 		while (run){
 			

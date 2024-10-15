@@ -19,6 +19,11 @@ class P2Brouillon{
 		System.out.println(displayTab(tabMarque));
 	}
 	
+	/**
+	 * convertie un decimal en binaire
+	 * @param nb un nombre entier
+	 * @return nb en binaire et chaque bit dans une case 
+	 */
 	int [] toBinaryTab(int nb){
 		int [] bin = {16,8,4,2,1};
 		int []res = new int [5];
@@ -33,6 +38,12 @@ class P2Brouillon{
 		return res;
 	}
 	
+	
+	/**
+	 * met le nombre d'allumette de en binaire
+	 * @param sticks tableau du nombre d'alluemtte par ligne
+	 * @return un tableau a deux dimension avec chaque nombre de sticks dans un tableau en binaire
+	 */
 	int[][] sticksInBinary(int[] sticks){
 		int[][] binSticks = new int[sticks.length][];
 		for (int i=0;i<sticks.length;i++){

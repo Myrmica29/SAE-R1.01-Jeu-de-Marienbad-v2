@@ -66,7 +66,7 @@ class Partie2{
 				
 				
 			}else{
-				System.out.println("C'est au tour de " + joueur2 + " de jouer !");
+				System.out.println("C'est au tour de ordi de jouer !");
 				//pour compiler
 				nbLigne = 0;
 				nbAll = 0;
@@ -85,7 +85,7 @@ class Partie2{
 		if (turn == 0){
 			System.out.println(joueur1 + " a gagne !!!");
 		}else{
-			System.out.println(joueur2 + " a gagne !!!");
+			System.out.println("ordi a gagne !!!");
 		}
 	}
 	
