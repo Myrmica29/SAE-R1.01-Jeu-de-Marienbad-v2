@@ -17,6 +17,11 @@ class Partie2{
 		int nbLigne ; // Variable utilisée dans la boucle pour stocker le numéro de la ligne choisie par le joueur
 		int nbAll ; // Variable utilisée dans la boucle pour stocker le nombre d'allumettes à enlever
 		
+		int[][] tabBin ;
+		int[] sum ;
+		int[] tabMarque;
+		int ligne;
+		
 		
 		// Saisie du nombre de lignes
 		n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15): ");
@@ -28,7 +33,7 @@ class Partie2{
 		
 		
 		// Saisie du nom du joueur qui joue en 1er
-		joueur1 = nomJoueur(1, ""); 
+		joueur1 = nomJoueur(1, "L'ordinateur"); 
 		
 		char jouer ;
 		do{
@@ -64,28 +69,31 @@ class Partie2{
 					nbAll = SimpleInput.getInt("Nombre d'allumettes que vous voulez enlever:");
 				}while(nbAll <=0 || nbAll>sticks[nbLigne]); // 0 < nbAll <= sticks[nbLigne]
 				
+				updateSticks(sticks, nbLigne, nbAll);
+				
 				
 			}else{
-				System.out.println("C'est au tour de ordi de jouer !");
-				//pour compiler
-				nbLigne = 0;
-				nbAll = 0;
+				tabBin = sticksInBinary(sticks);
+				sum = sumColumns(tabBin);
+				tabMarque = marqueurImpairs(sum);
+				ligne = ligneImpair(tabBin, tabMarque);
+				modifMatrice(tabBin, tabMarque, sticks);
 			}
 			
 			
 			
-			// Mise à jour du tableau de batons
-			updateSticks(sticks, nbLigne, nbAll);
+			
 			
 			// Mise à jour de la condition de continuation de la boucle
 			run = continueGame(sticks);
 		}
 		
 		System.out.println();
+		displaySticks(sticks);
 		if (turn == 0){
 			System.out.println(joueur1 + " a gagne !!!");
 		}else{
-			System.out.println("ordi a gagne !!!");
+			System.out.println("L'ordinateur a gagne !!!");
 		}
 	}
 	
@@ -233,6 +241,11 @@ class Partie2{
 	}
 	
 	
+	/**
+	 * convertie un nombre en binaire
+	 * @param nb un entier en decimal
+	 * @return un tableau avec un bit par element
+	 */
 	int [] binaire(int nb){
 		int [] bin = {16,8,4,2,1};
 		int []res = new int [5];
@@ -247,8 +260,133 @@ class Partie2{
 		return res;
 	}
 	
+
 	
-	//fonction test
+	/**
+	 * trouve le numero de ligne a modifier
+	 * @param matrice tableau a deux dimensions contenant les ligne en binaire
+	 * @param tabMarque tableau ou 1 signifie que la colonne est impaire
+	 * @return le numero de ligne a modifier, -1 si aucune ne corresponds
+	 */
+	int ligneImpair(int[][] matrice, int[] tabMarque ){
+		int ligne = -1;
+		int i = 0; // index parcours de somme
+		while (i < tabMarque.length && ligne == -1){
+			if (tabMarque[i] == 1 ){
+				int j = 0; // index de parcours de stick
+				while ( j < matrice.length && ligne == -1){
+					if ( matrice[j][i] == 1 ){
+						ligne = j;
+					}
+					j ++;
+				}
+			}
+			i ++;
+		}
+		return ligne;
+	}
+	
+	
+	/**
+	 * convertie un binaire en decimal
+	 * @param nb un tableau en binaire et chaque bit dans une case
+	 * @return nombre en decimal
+	 */
+	 int toDecimal(int[] nb){
+		 int [] bin = {16,8,4,2,1};
+		 int res = 0;
+		 for (int i = 0; i < nb.length ; i++){
+			 if ( nb[i] == 1 ){
+				 res += bin[i];
+			}
+		}
+		return res;
+	}
+	
+	
+	void modifMatrice( int [][] matrice, int []tabMarque, int[] tab){
+		int ligne;
+		int stick;
+		ligne = ligneImpair(matrice, tabMarque);
+		if ( ligne == -1 ){
+			do{
+				ligne = (int) Math.random()*(tab.length);
+			}while (tab[ligne] == 0);
+			
+			do{
+				stick = (int) Math.random()*(tab[ligne]);
+			}while( stick == 0);
+		}else{
+			for (int i = 0; i < tabMarque.length; i++){
+				if ( tabMarque[i] == 1 ) {
+					if ( matrice[ligne][i] == 1){
+						 matrice[ligne][i] = 0;
+					}else{
+						matrice[ligne][i] = 1;
+					}
+				}
+			}
+			stick = toDecimal(matrice[ligne]);
+			stick = tab[ligne] - stick;
+		}
+		
+		System.out.println("L'ordinateur joue a la ligne " +ligne+ " et retire " +stick+ " allumettes ");
+		updateSticks(tab, ligne, stick);
+	}
+	
+	/**
+	 * convertie un decimal en binaire
+	 * @param nb un nombre entier
+	 * @return nb en binaire et chaque bit dans une case 
+	 */
+	int [] toBinaryTab(int nb){
+		int [] bin = {16,8,4,2,1};
+		int []res = new int [5];
+		
+		for (int i = 0; i < 5 ; i ++){
+			if (nb >= bin[i] ){
+				nb -= bin[i];
+				res[i] = 1;
+			}
+		}
+		
+		return res;
+	}
+	
+	
+	/**
+	 * met le nombre d'allumette de en binaire
+	 * @param sticks tableau du nombre d'alluemtte par ligne
+	 * @return un tableau a deux dimension avec chaque nombre de sticks dans un tableau en binaire
+	 */
+	int[][] sticksInBinary(int[] sticks){
+		int[][] binSticks = new int[sticks.length][];
+		for (int i=0;i<sticks.length;i++){
+			binSticks[i] = toBinaryTab(sticks[i]);
+		}
+		return binSticks;
+	}
+	
+	int[] sumColumns(int[][] matrice){
+		int[] sum = new int[matrice[0].length];
+		for (int i=0;i<matrice.length;i++){
+			for (int j=0;j<matrice[i].length;j++){
+				sum[j] += matrice[i][j];
+			}
+		}
+		return sum;
+	}
+	
+	int[] marqueurImpairs(int[] tab){
+		int[] tabMarque = new int[tab.length];
+		for (int i=0; i<tab.length;i++){
+			if (tab[i]%2 == 1){
+				tabMarque[i] = 1;
+			}
+		}
+		return tabMarque;
+	}
+	///////////////fonction test
 	/**
 	 * Affiche tous les tests de fonction
 	 */
