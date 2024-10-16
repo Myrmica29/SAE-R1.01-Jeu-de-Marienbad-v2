@@ -7,6 +7,9 @@ class P2Brouillon{
 	void principal(){
 		int[] tab = generateSticks(5);
 		int[][] tabBin = sticksInBinary(tab);
+		System.out.println("Tableau du jeu:");
+		System.out.println(displayTab(tab));
+		
 		System.out.println("Matrice:");
 		for (int i=0; i<tabBin.length;i++){
 			System.out.println(displayTab(tabBin[i]));
@@ -14,9 +17,29 @@ class P2Brouillon{
 		System.out.println("Somme des colonnes:");
 		int[] sum = sumColumns(tabBin);
 		System.out.println(displayTab(sum));
+		
 		System.out.println("Marquage des nombres impairs:");
 		int[] tabMarque = marqueurImpairs(sum);
 		System.out.println(displayTab(tabMarque));
+		
+		System.out.println("Ligne a modifier : ");
+		int ligne = ligneImpair(tabBin, tabMarque);
+		System.out.println(ligne);
+		
+		System.out.println("Test Convertie en decimal : ");
+		int nb = toDecimal(new int[] {1,0,0,1,0});
+		System.out.println(nb);
+		
+		System.out.println("Modifie tableau : ");
+		modifMatrice(tabBin, tabMarque, tab);
+		System.out.println(displayTab(tab));
+		
+		tabBin = sticksInBinary(tab);
+		System.out.println("Matrice:");
+		for (int i=0; i<tabBin.length;i++){
+			System.out.println(displayTab(tabBin[i]));
+		}
+		
 		System.out.println("/");
 		testSumColumns();
 		testMarqueurImpairs();
@@ -26,7 +49,7 @@ class P2Brouillon{
 	}
 	
 	/**
-	 * convertit un decimal en nombre binaire
+	 * convertie un decimal en nombre binaire
 	 * @param nb un nombre entier inférieur strict à 32
 	 * @return nb en binaire et chaque bit dans une case d'un tableau de longueur 5
 	 */
@@ -73,7 +96,7 @@ class P2Brouillon{
 	}
 	
 	/**
-	 * convertit le nombre d'allumettes de chaques lignes dans un tableau en binaire dans un tableau
+	 * convertie le nombre d'allumettes de chaques lignes dans un tableau en binaire dans un tableau
 	 * @param sticks tableau du nombre d'alluemtte par ligne
 	 * @return un tableau a deux dimension avec chaque nombre de sticks en binaire dans un tableau
 	 */
@@ -195,6 +218,85 @@ class P2Brouillon{
 		} else {
 			System.err.println("ERREUR");
 		}
+	}
+	
+	/**
+	 * 
+	 * 
+	 */
+	void modifMatrice( int [][] matrice, int []tabMarque, int[] tab){
+		int ligne;
+		int stick;
+		ligne = ligneImpair(matrice, tabMarque);
+		if ( ligne == -1 ){
+			do{
+				ligne = (int) Math.random()*(tab.length);
+			}while (tab[ligne] == 0);
+			
+			do{
+				stick = (int) Math.random()*(tab[ligne]);
+			}while( stick == 0);
+		}else{
+			for (int i = 0; i < tabMarque.length; i++){
+				if ( tabMarque[i] == 1 ) {
+					if ( matrice[ligne][i] == 1){
+						 matrice[ligne][i] = 0;
+					}else{
+						matrice[ligne][i] = 1;
+					}
+				}
+			}
+			stick = toDecimal(matrice[ligne]);
+			stick = tab[ligne] - stick;
+		}
+		
+		System.out.println("L'ordinateur joue a la ligne " +ligne+ " et retire " +stick+ " allumettes ");
+		updateSticks(tab, ligne, stick);
+	}
+	
+	/**
+	 * trouve le numero de ligne a modifier
+	 * @param matrice tableau a deux dimensions contenant les ligne en binaire
+	 * @param tabMarque tableau ou 1 signifie que la colonne est impaire
+	 * @return le numero de ligne a modifier, -1 si aucune ne corresponds
+	 */
+	int ligneImpair(int[][] matrice, int[] tabMarque ){
+		int ligne = -1;
+		int i = 0; // index parcours de somme
+		while (i < tabMarque.length && ligne == -1){
+			if (tabMarque[i] == 1 ){
+				int j = 0; // index de parcours de stick
+				while ( j < matrice.length && ligne == -1){
+					if ( matrice[j][i] == 1 ){
+						ligne = j;
+					}
+					j ++;
+				}
+			}
+			i ++;
+		}
+		return ligne;
+	}
+	
+	/**
+	 * convertie un binaire (sous forme de tableau) en decimal
+	 * @param nb un tableau en binaire et chaque bit dans une case
+	 * @return nombre en decimal
+	 */
+	 int toDecimal(int[] nb){
+		 int [] bin = {16,8,4,2,1};
+		 int res = 0;
+		 for (int i = 0; i < nb.length ; i++){
+			 if ( nb[i] == 1 ){
+				 res += bin[i];
+			}
+		}
+		return res;
+	}
+	
+	// Importée pour les tests
+	void updateSticks(int[] sticks, int a, int b){
+		sticks[a] = sticks[a] - b;
 	}
 
 	/**
