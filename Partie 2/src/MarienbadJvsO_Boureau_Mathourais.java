@@ -3,7 +3,7 @@
  * @author Tristan & Mélanie
  */
 
-class MarienbadJvsO_Boureau_Mathourais{
+class MarienbadJvsJ_Boureau_Mathourais{
 	void principal(){
 		
 		test(); 
