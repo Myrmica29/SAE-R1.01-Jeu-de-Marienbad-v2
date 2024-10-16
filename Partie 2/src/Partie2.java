@@ -33,7 +33,7 @@ class Partie2{
 		
 		
 		// Saisie du nom du joueur qui joue en 1er
-		joueur1 = nomJoueur(1, "L'ordinateur"); 
+		joueur1 = nomJoueur(1, ""); 
 		
 		char jouer ;
 		do{
@@ -107,12 +107,13 @@ class Partie2{
 	 * @return le nom du joueur si est il acceptable
 	 */
 	String nomJoueur(int n, String adversaire){
-		boolean valide;
-		String joueur ;
-		do{
+		boolean valide = false;
+		String joueur = adversaire;
+		while (!valide || (egalString(adversaire, joueur))){
 			valide = false ;
 			if ( n == 1 ){
 				joueur = SimpleInput.getString("Nom du joueur 1 (non vide et sans espace) : ");
+				System.out.println("test");
 			}else {
 				joueur = SimpleInput.getString("Nom du joueur 2 (non vide, sans espace et different du joueur 1) : ");
 			}
@@ -130,9 +131,9 @@ class Partie2{
 			}else {
 				valide = false;
 			}
-			
 				
-		}while (!valide || (egalString(adversaire, joueur)));
+		}
+		
 		return joueur;
 	}
 	
