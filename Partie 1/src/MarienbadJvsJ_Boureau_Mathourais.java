@@ -6,7 +6,26 @@
 class MarienbadJvsJ_Boureau_Mathourais{
 	void principal(){
 		
-		test(); 
+		System.out.println("////////////////////////////////////////////////////////////////////");
+		System.out.println("///////////                FONCTION TEST                ////////////");
+		System.out.println("////////////////////////////////////////////////////////////////////");
+		char affiche;
+		do{
+			affiche = SimpleInput.getChar("Souhaitez vous voir les tests (O/N) : ");
+		}while(affiche !=  'o' && affiche != 'O' && affiche != 'n' && affiche != 'N');
+		
+		if (affiche == 'o' || affiche == 'O'){
+			test(); 
+		}
+		
+		System.out.println("///////////////////////////////////////////////////////////////////");
+		System.out.println("///////////              JEU DE MARIENBAD              ////////////");
+		System.out.println("///////////////////////////////////////////////////////////////////");
+		System.out.println();
+		System.out.println("Regles : ");
+		System.out.println("Quand c'est a vous de jouer vous pouvez enlever autant d'allumettes que vous le souhaitez (au minimum 1) mais seulement sur une seule ligne ");
+		System.out.println("Dans ce jeu le but est d'être le joueur qui enleve la derniere allumettes");
+		System.out.println(); 
 		
 		String joueur1;
 		String joueur2 ;
@@ -21,7 +40,7 @@ class MarienbadJvsJ_Boureau_Mathourais{
 		
 		
 		// Saisie du nombre de lignes
-		n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15): ");
+		n = SimpleInput.getInt("Nombre de lignes avec lequel vous voulez jouer(entre 2 et 15): ");
 		while(n<2 || n>15){
 			System.out.println("Nombre de lignes invalide");
 			n = SimpleInput.getInt("Nombre de lignes (entre 2 et 15): ");
